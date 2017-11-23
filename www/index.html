@@ -54,13 +54,13 @@
     <script type="text/javascript">
         app.initialize();
         var function=callback(){
-            document.getElementById('result').text = 'callback';
+            document.getElementById('result').innerHTML = 'callback';
         }
         var function=success(){
-            document.getElementById('result').text = 'success';
+            document.getElementById('result').innerHTML = 'success';
         }
         var function=failure(){
-            document.getElementById('result').text = 'failure';
+            document.getElementById('result').innerHTML = 'failure';
         }
     </script>
     <span onclick="navigator.notification.vibrate(2000)">Bouton</span>
