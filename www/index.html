@@ -54,7 +54,7 @@
     <script type="text/javascript">
         app.initialize();
         var callback=function(){
-            document.getElementById('result').innerHTML = 'callback Ndef';
+            document.getElementById('result').innerHTML = 'callback Ndef arg0:' +arguments[0] +',arg1:'+arguments[1] +',arg2:'+arguments[2];
         }
         var success=function(){
             document.getElementById('result').innerHTML = 'success Ndef';
@@ -64,7 +64,7 @@
         }
         
         var callback2=function(){
-            document.getElementById('result2').innerHTML = 'callback Tag';
+            document.getElementById('result2').innerHTML = 'callback Tag arg0:' +arguments[0] +',arg1:'+arguments[1] +',arg2:'+arguments[2];
         }
         var success2=function(){
             document.getElementById('result2').innerHTML = 'success Tag';
