@@ -51,40 +51,8 @@
     
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
-        var callback=function(){
-            document.getElementById('result').innerHTML = 'callback Ndef arg0:' +arguments[0] +',arg1:'+arguments[1] +',arg2:'+arguments[2];
-        }
-        var success=function(){
-            document.getElementById('result').innerHTML = 'success Ndef';
-        }
-        var failure=function(){
-            document.getElementById('result').innerHTML = 'failure Ndef';
-        }
-        
-        var callback2=function(){
-            document.getElementById('result2').innerHTML = 'callback Tag arg0:' +arguments[0] +',arg1:'+arguments[1] +',arg2:'+arguments[2];
-        }
-        var success2=function(){
-            document.getElementById('result2').innerHTML = 'success Tag';
-        }
-        var failure2=function(){
-            document.getElementById('result2').innerHTML = 'failure Tag';
-        }
-        
-    </script>
-    <span onclick="navigator.notification.vibrate(2000)">Bouton</span>
-    <br/>
-    <br/>
-    <span onclick="nfc.addNdefListener(callback,success,failure)">NFC</span>
-    <br/>
-    <br/>
-    <span onclick="nfc.addTagDiscoveredListener(callback2,success2,failure2)">TAG</span>
-    <br/>
-    <br/>
-    <span id="result"></span>
-    <span id="result2"></span>
+
+
 
 
 
