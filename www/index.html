@@ -1,31 +1,16 @@
-     <script type="text/javascript">
-       
-          var callback=function(){
-              var records=nfcEvent.tagData;
-              for (var i=0;i<records.length;i++){
-                  var record=records[i],
-                      p=document.createElement('p');
-                      p.innerHTML=nfc.bytesToString(record.payload);
-                      display.appendChild(p);
-              }
-          }
-          var success=function(){
-              document.getElementById('result').innerHTML = 'success Ndef';
-         <h1>Bouton</h1>
-          }
-          
-      
-         }
-         
-     </script>
-     <span onclick="navigator.notification.vibrate(2000)">Bouton</span>
-     <br/>
-     <br/>
-     <span onclick="nfc.addNdefListener(callback,success,failure)">NFC</span>
-     <br/>
-     <br/>
-   
-     <br/>
-     <br/>
-     <span id="result"></span>
-     <span id="result2"></span>
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta name="viewport" content="width=320; user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Scan NFC</title>
+      <link rel="stylesheet" href="master.css" type="text/css" media="screen" title="no title" />
+      <script type="text/javascript" charset="utf-8" src="phonegap-1.0.0.js"></script>
+      <script type="text/javascript" charset="utf-8" src="phonegap-nfc-0.4.1.js"></script>
+      <script type="text/javascript" charset="utf-8" src="main.js"></script>
+  </head>
+  <body>
+ <p>Please scan NFC tag</p>
+ <p id="rand"></p>
+  </body>
+</html>
