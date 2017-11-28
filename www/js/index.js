@@ -1,27 +1,36 @@
-function ready() {
+    var app = {
 
-    function onNfc(nfcEvent) {
-
+    onNfc: function(nfcEvent) {
         var tag = nfcEvent.tag;
-        var tagId = nfc.bytesToHexString(tag.id);
-        navigator.notification.alert(tagId);
-        var y=document.getElementById("rand");
-        y.innerHTML = tagId;
+        app.display("Read tag: " + nfc.bytesToHexString(tag.id));
+   },
 
-    }
+/*
+   appends @message to the message div:
+*/
+   display: function(message) {
+      var label = document.createTextNode(message),
+         lineBreak = document.createElement("br");
+      messageDiv.appendChild(lineBreak);         // add a line break
+      messageDiv.appendChild(label);             // add the text
+   },
+/*
+   clears the message div:
+*/
+   clear: function() {
+       messageDiv.innerHTML = "";
+   },
+};     // end of app
 
-    function win() {
-        console.log("Listening for NFC Tags");
-    }
+function win(){
+    alert("reading");
+};
 
-    function fail(error) {
-        alert("Error adding NFC listener");
-    }
+function fail(){
+    alert("failed to start reading");
+};
+
+nfc.addTagDiscoveredListener(app.onNfc, win, fail);
 
 
-    nfc.addTagDiscoveredListener(onNfc, win, fail);
-}
 
-function init() {
-    document.addEventListener('deviceready', ready, false);
-}
