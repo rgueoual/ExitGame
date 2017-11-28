@@ -30,7 +30,8 @@ function fail(){
     alert("failed to start reading");
 };
 
-nfc.addTagDiscoveredListener(app.onNfc, win, fail);
-
+function startReading(){
+    nfc.addTagDiscoveredListener(app.onNfc, win, fail);
+};
 
 
