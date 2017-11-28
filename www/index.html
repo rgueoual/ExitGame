@@ -1,17 +1,70 @@
 <!DOCTYPE html>
 
 <html>
-   <head>
-      <title>NFC tag ID reader</title>
-   </head>
-   <body style="font-size: 1.4em;">
-      <div class="app">
-         <div id="messageDiv"></div>
-      </div>
-      <script type="text/javascript" src="cordova.js"></script>
-      <script type="text/javascript" src="js/index.js"></script>
-      <script type="text/javascript">
-        app.initialize();
-      </script>
-   </body>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+    <title>Mon application</title>
+</head>
+
+<body>
+
+<!-- SimulNFC -->
+    <input type = "file" id = "fileHint" name = "fileHint" multiple />
+    <input type = "file" id = "fileCond" name = "fileCond" multiple />
+    <input type = "file" id = "fileID" name = "fileID" multiple />
+    <button id = "button">Reset</button> 
+
+<!-- BlocsIndices -->
+
+	<div id = "wrapper raw2">
+
+
+	</div>
+
+<!-- Execution du script -->
+    <script type="text/javascript" src = "cordova.js"></script>
+    <script type="text/javascript" src = "index.js"></script>
+
+
+    <script>
+
+        document.getElementById('fileHint').addEventListener('change', function (e) {
+            var files = e.target.files;
+            var reader = new FileReader();
+            //proceed your files here
+            reader.readAsText(files[0]);
+            CSVmanagerHint.handleFiles(files);
+            }, false);
+
+        document.getElementById('fileCond').addEventListener('change', function (e) {
+           	var filesCond = e.target.files;
+            var readerCond = new FileReader();
+            //proceed your files here
+            readerCond.readAsText(filesCond[0]);
+            CSVmanagerCond.handleFiles(filesCond);
+            }, false);
+
+        document.getElementById('fileID').addEventListener('change', function (e) {
+            var filesID = e.target.files;
+            var readerID = new FileReader();
+            //proceed your files here
+            readerID.readAsText(filesID[0]);
+            CSVmanagerID.handleFiles(filesID);
+            }, false);
+
+        document.getElementById('button').addEventListener('click', reseter.init);
+
+        init();
+    </script>
+
+
+</body>
+
 </html>
