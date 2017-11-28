@@ -1,31 +1,39 @@
 var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+/*
+   Application constructor
+*/
+   initialize: function() {
+      this.bindEvents();
+      console.log("Starting NFC Reader app");
+   },
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+/*
+   bind any events that are required on startup to listeners:
+*/
+   bindEvents: function() {
+      document.addEventListener('deviceready', this.onDeviceReady, false);
+       /*
+   displays tag ID from @nfcEvent in message div:
+*/
+   onNfc: function(nfcEvent) {
+      var tag = nfcEvent.tag;
+      app.display("Read tag: " + nfc.bytesToHexString(tag.id));
+   },
 
-        console.log('Received Event: ' + id);
-    }
-};
+/*
+   appends @message to the message div:
+*/
+   display: function(message) {
+      var label = document.createTextNode(message),
+         lineBreak = document.createElement("br");
+      messageDiv.appendChild(lineBreak);         // add a line break
+      messageDiv.appendChild(label);             // add the text
+   },
+/*
+   clears the message div:
+*/
+   clear: function() {
+       messageDiv.innerHTML = "";
+   }
+};     // end of app
+   },
