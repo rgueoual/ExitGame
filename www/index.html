@@ -60,15 +60,28 @@
             document.getElementById('result').innerHTML = 'failure Ndef';
         }
         
-        var callback2=function(){
+        var callback2=function(nfcEvent){
             document.getElementById('result2').innerHTML = 'callback Tag';
+            var tag = nfcEvent.tag;
+            display("Read tag: " + nfc.bytesToHexString(tag.id));
+            
         }
+        var display=function(message){
+            var label = document.createTextNode(message),
+            var lineBreak = document.createElement("br");
+            messageDiv.appendChild(lineBreak);         // add a line break
+            messageDiv.appendChild(label);             // add the text
+        }
+        
         var success2=function(){
             document.getElementById('result2').innerHTML = 'success Tag';
         }
         var failure2=function(){
             document.getElementById('result2').innerHTML = 'failure Tag';
         }
+        
+        <div id="messageDiv">
+        </div>
         
     </script>
     <span onclick="navigator.notification.vibrate(2000)">Bouton</span>
