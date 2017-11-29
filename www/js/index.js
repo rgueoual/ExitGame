@@ -1,7 +1,6 @@
 // Main program
 
 // Déclaration de variables et fonctions isolées
-
 	// Déclaration d'éléments
 	var elemSimuNFC1 = document.getElementById("NFCread1");
 	var elemSimuNFC2 = document.getElementById("NFCread2");
@@ -77,6 +76,7 @@ var CSVmanagerHint ={
 
 	handleFiles : function(files){
 		if (window.FileReader) {
+			alert('working');
 			CSVmanagerHint.getAsText(files[0]);
 		} else {
 			alert('FileReader are not supported in this browser.');
