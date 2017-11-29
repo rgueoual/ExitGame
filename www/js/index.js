@@ -78,7 +78,8 @@ var app = {
 	},
 
    onNfc: function(nfcEvent) {
-	   	navigator.notification.vibration(1000);
+	   alert("i just read");
+	    navigator.notification.vibration(1000);
 	    var tag = nfcEvent.tag;
 	    var stringTag = nfc.bytesToHexString(tag.id);
 	    var NFCnumber = app.idToNumber(stringTag);
