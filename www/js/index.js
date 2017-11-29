@@ -1,14 +1,10 @@
 // Main program
 
 // Déclaration de variables et fonctions isolées
-	// Déclaration d'éléments
-	var elemSimuNFC1 = document.getElementById("NFCread1");
-	var elemSimuNFC2 = document.getElementById("NFCread2");
-	var elemSimuNFC3 = document.getElementById("NFCread3"); // (en attente de développement : vraie détection)
 
+	// Déclaration d'éléments
 
 		// Déclaration de variable
-	var tickerFunction; // Emplacement pour le SetInterval de NFCreader.startStopRead, afin de pouvoir l'annuler facilement.
 
 	var hintData = []; // Liste sous le format : [[NFCnumber,indice1,indice2..],[NFCnumber,indice1...]...].
 	// hintData [3][4] renvoie l'indice 4 de la puce NFC numéro 3.
@@ -16,6 +12,8 @@
 	var condData = []; // Liste sous le format : [[NFCnumber,NFCcond,Activated]...]
 	// NFCcond : numéro de puce NFC conditionnelle, sous format "c1,c2..". "c0" correspond à l'absence de puce conditionnelle.
 	//Activated = "1" si activée, "0" sinon.
+
+	var IDdata = []; //IDdata [id] = [NFCnumber,Iscond]
 
 	var condDataOld = []; // Liste de copie de la colonne "Activated" initiale de condData.
 
@@ -26,57 +24,78 @@
 	var currentNFC = "undefined"; // Dernière puce NFC lue, initialisation à "undefined".
 
 		// Déclaration de fonctions
-	function init(){ // Fonction d'initialisation, seule fonction appelée directement dans le script.
-		NFCreader.startStopRead(true); 
-	}
 
 // Structures complexes
 
-var NFCreader ={ // Structure comprenant toutes les fonctions liée à la lecture d'une puce NFC.
+var app = {
+	initialize: function() {
+      	this.bindEvents();
+      	console.log("Starting NFC Reader app");
+   },
 
-	isReadingNFC : function(){ // Fonction "booléenne", tout est dans le titre. 
-		if (elemSimuNFC1.checked){
-			return [true,1];
-		} else if (elemSimuNFC2.checked){
-			return [true,2];
-		} else if (elemSimuNFC3.checked){
-			return [true,"c1"];
+    bindEvents: function() {
+      document.addEventListener('deviceready', this.onDeviceReady, false);
+   },
+
+    onDeviceReady: function() {
+
+      app.startRead();
+   },
+
+   	startRead : function (){
+   		nfc.addTagDiscoveredListener(
+         app.onNfc,             // tag successfully scanned
+         function (status) {    // listener successfully initialized
+            alert("Tap a tag to read its id number.");
+         },
+         function (error) {     // listener fails to initialize
+            alert("NFC reader failed to initialize " +
+               JSON.stringify(error));
+         }
+         );
+   },
+
+   	stopRead :function (){
+   		nfc.removeTagDiscoveredListener(
+         app.onNfc,             // tag successfully scanned
+         function (status) {    // listener successfully initialized
+            alert("Tap a tag to read its id number.");
+         },
+         function (error) {     // listener fails to initialize
+            alert("NFC reader failed to initialize " +
+               JSON.stringify(error));
+         }
+         );
+   },
+   
+   idToNumber : function(NFCid){
+		if (IDdata[NFCid][1] == "0"){
+			return parseInt(IDdata[NFCid][0]);
 		} else {
-			return [false,0];
+			return IDdata[NFCid][0]
 		}
-
 		
-		// return elemSimuNFC.checked; // (en attente de développement : vraie détection)
 	},
 
-	startStopRead : function(bool){ // Interrupteur de lecture NFC ; argument : true = on, false = off.
-		if (bool){
-			;
-			tickerFunction = setInterval(NFCreader.tick, 500); // Lancement d'une lecture NFC toutes les 0.5 secondes.
-		} else {
-			clearInterval(tickerFunction); // Arrêt de la lecture périodique.
-		};
-	},
+   onNfc: function(nfcEvent) {
+	   	navigator.notification.vibration(1000);
+	    var tag = nfcEvent.tag;
+	    var stringTag = nfc.bytesToHexString(tag.id);
+	    var NFCnumber = app.idToNumber(stringTag);
+	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
 
-	tick : function(){ // Fonction appelé à chaque itération du setInterval ; ici pour effectuer une lecture NFC.
-		if ((NFCreader.isReadingNFC())[0]){
+	    app.stopRead();
+	    setTimeout(app.startRead,10000);
 
-			NFCreader.startStopRead(false);
-			setTimeout(NFCreader.startStopRead,10000,true);
+	    hintManager.init(NFCnumber);
 
-			var NFCreadNumber = NFCreader.isReadingNFC()[1];
-			alert(NFCreadNumber);
-			hintManager.init(NFCreadNumber);
-		};
-	},
-
+   },
 }
 
 var CSVmanagerHint ={
 
 	handleFiles : function(files){
 		if (window.FileReader) {
-			alert('working');
 			CSVmanagerHint.getAsText(files[0]);
 		} else {
 			alert('FileReader are not supported in this browser.');
@@ -121,7 +140,59 @@ var CSVmanagerHint ={
       	var input = document.getElementById("fileHint");
       	input.parentNode.removeChild(input);
       }
+}
 
+var CSVmanagerID ={
+
+	handleFiles : function(files){
+		if (window.FileReader) {
+			CSVmanagerID.getAsText(files[0]);
+		} else {
+			alert('FileReader are not supported in this browser.');
+		};
+	},
+
+	getAsText : function(fileToRead){
+		var reader = new FileReader();
+		reader.readAsText(fileToRead);
+		reader.onload = CSVmanagerID.loadHandler;
+		reader.onerror = CSVmanagerID.errorHandler;
+	},
+
+	loadHandler : function(event) {
+		var csv = event.target.result;
+		CSVmanagerID.processData(csv);
+	},
+
+	processData : function(csv){
+		var allTextLines = csv.split(/\r?\n|\r/);
+        
+            for (var i=0; i<allTextLines.length; i++) {
+                var data = allTextLines[i].split(';');
+                var tarr = [];
+                for (var j=0; j<data.length; j++) {
+                        tarr.push(data[j]);
+                    };
+                //tarr.push(false);
+                IDdata[tarr[0]] = [tarr[1],tarr[2]];
+                //condData[tarr[1]] = tarr;
+            };
+        CSVmanagerID.CSVremover();
+
+        //alert(condData["c3"][0]);
+        //alert(condData);
+      },
+
+      errorHandler : function(evt) {
+      	if (evt.target.error.name == "NotReadableError") {
+      		alert("Cannot read file !");
+      	};
+      },
+
+      CSVremover : function(){
+      	var input = document.getElementById("fileID");
+      	input.parentNode.removeChild(input);
+      },
 }
 
 var CSVmanagerCond ={
@@ -209,7 +280,7 @@ var hintManager ={
 			condManager.condUpdater(NFCnumber);
 			return 0;
 		} else {
-			alert(condManager.isCondVerified(NFCnumber));
+			//alert(condManager.isCondVerified(NFCnumber));
 			if ((currentNFC == "undefined")&&(condManager.isCondVerified(NFCnumber))){
 				currentNFC = NFCnumber;
 				hintManager.hintListCreator(NFCnumber);
