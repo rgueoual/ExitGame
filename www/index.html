@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=yes" />
+    <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
@@ -16,9 +16,13 @@
 <body>
 
 <!-- SimulNFC -->
+    <form method="post" action="random.php">
+        <input type="checkbox" name="NFCread1" id="NFCread1" /><label for="NFCread1">NFC read1</label>
+        <input type="checkbox" name="NFCread2" id="NFCread2" /><label for="NFCread2">NFC read2</label>
+        <input type="checkbox" name="NFCread3" id="NFCread3" /><label for="NFCread3">NFC read3</label>
+    </form>
     <input type = "file" id = "fileHint" name = "fileHint" multiple />
     <input type = "file" id = "fileCond" name = "fileCond" multiple />
-    <input type = "file" id = "fileID" name = "fileID" multiple />
     <button id = "button">Reset</button> 
 
 <!-- BlocsIndices -->
@@ -29,9 +33,10 @@
 	</div>
 
 <!-- Execution du script -->
-    <script type="text/javascript" src = "cordova.js"></script>
-    <script type="text/javascript" src = "index.js"></script>
-
+	<script type="text/javascript" src = "Test.js"></script>
+    <script type="text/javascript" src = "indexMe.js"></script>
+    <script type="text/javascript" src = "jquery.js"></script>
+    <script type="text/javascript" src="jquerycsv.js"></script>
 
     <script>
 
@@ -49,14 +54,6 @@
             //proceed your files here
             readerCond.readAsText(filesCond[0]);
             CSVmanagerCond.handleFiles(filesCond);
-            }, false);
-
-        document.getElementById('fileID').addEventListener('change', function (e) {
-            var filesID = e.target.files;
-            var readerID = new FileReader();
-            //proceed your files here
-            readerID.readAsText(filesID[0]);
-            CSVmanagerID.handleFiles(filesID);
             }, false);
 
         document.getElementById('button').addEventListener('click', reseter.init);
