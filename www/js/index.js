@@ -78,12 +78,12 @@ var app = {
 	},
 
    onNfc: function(nfcEvent) {
-	   alert("i just read");
+	   //alert("i just read");
 	    navigator.notification.vibrate(1000);
 	    var tag = nfcEvent.tag;
 	    var stringTag = nfc.bytesToHexString(tag.id);
-	   alert(stringTag);
 	    var NFCnumber = app.idToNumber(stringTag);
+	   alert(NFCnumber);
 	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
 
 	    app.stopRead();
@@ -277,7 +277,7 @@ var condManager={
 var hintManager ={
 
 	init : function(NFCnumber){
-
+		alert("working init hm"+NFCnumber);
 		if (typeof(NFCnumber)=='string'){
 			condManager.condUpdater(NFCnumber);
 			return 0;
