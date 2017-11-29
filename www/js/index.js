@@ -367,8 +367,7 @@ var reseter ={
 	},
 
 	hintGivenReset : function(){
-		while (hintGivenList[0]){
-			hintGivenList.slice(0);
+		hintGivenList = [];
 		};
 	},
 
