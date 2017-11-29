@@ -46,7 +46,7 @@ var app = {
    		nfc.addTagDiscoveredListener(
          app.onNfc,             // tag successfully scanned
          function (status) {    // listener successfully initialized
-            alert("Tap a tag to read its id number.");
+            console.log("Tap a tag to read its id number.");
          },
          function (error) {     // listener fails to initialize
             alert("NFC reader failed to initialize " +
@@ -59,7 +59,7 @@ var app = {
    		nfc.removeTagDiscoveredListener(
          app.onNfc,             // tag successfully scanned
          function (status) {    // listener successfully initialized
-            alert("Tap a tag to read its id number.");
+            console.log("Tap a tag to read its id number.");
          },
          function (error) {     // listener fails to initialize
             alert("NFC reader failed to initialize " +
