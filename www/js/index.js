@@ -69,7 +69,9 @@ var app = {
    },
    
    idToNumber : function(NFCid){
+	   	//alert("working idto");
 		if (IDdata[NFCid][1] == "0"){
+			//alert("working idto cond");
 			return parseInt(IDdata[NFCid][0]);
 		} else {
 			return IDdata[NFCid][0]
@@ -83,7 +85,7 @@ var app = {
 	    var tag = nfcEvent.tag;
 	    var stringTag = nfc.bytesToHexString(tag.id);
 	    var NFCnumber = app.idToNumber(stringTag);
-	   alert(NFCnumber);
+	   //alert(NFCnumber);
 	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
 
 	    app.stopRead();
@@ -181,7 +183,7 @@ var CSVmanagerID ={
             };
         CSVmanagerID.CSVremover();
 
-        //alert(condData["c3"][0]);
+        //alert(IDdata[][0]);
         //alert(condData);
       },
 
@@ -277,7 +279,7 @@ var condManager={
 var hintManager ={
 
 	init : function(NFCnumber){
-		alert("working init hm"+NFCnumber);
+		//alert("working init hm"+NFCnumber);
 		if (typeof(NFCnumber)=='string'){
 			condManager.condUpdater(NFCnumber);
 			return 0;
