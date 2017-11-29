@@ -323,6 +323,7 @@ var hintManager ={
 			hintManager.hintListCreator(NFCnumber);
 		} else {
 			var nowOn = hintGivenList[NFCnumber].length;
+			alert(nowOn);
 			if (hintData[NFCnumber][nowOn + 1]){
 				hintGivenList[NFCnumber].push(hintData[NFCnumber][nowOn + 1]);
 				return hintManager.hintBlockCreator(NFCnumber,nowOn + 1);
