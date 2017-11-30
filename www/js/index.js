@@ -368,7 +368,7 @@ var reseter ={
 
 	hintGivenReset : function(){
 		hintGivenList = [];
-		};
+		
 	},
 
 	condDataReset : function(){
