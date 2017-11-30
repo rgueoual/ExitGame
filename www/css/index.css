@@ -2,16 +2,16 @@ body{margin:0; padding:0; font-size:10px; font-family:Calibri, "Calibri", Times,
 
 /* --------Wrapper------*/
 
-.wrapper{display:block; width:100%; margin:0; padding:0; text-align:center;}
+#wrapper_row2{display:block; width:100%; margin:0; padding:0; text-align:center;}
 
-.row1{color:#FFFFFF; background-color:#003FAD;}
-.row2{color:#FFFFFF; background-color:#003C5A;}
-.row3{color:#FFFFFF; background-color:#003FAD;}
+#wrapper_row1{color:#FFFFFF; background-color:#003FAD;}
+#wrapper_row2{color:#FFFFFF; background-color:#003C5A;}
+#wrapper_row3{color:#FFFFFF; background-color:#003FAD;}
 
 /* --------Header------*/
 
-.row1 h1{text-align:center; font-size:30px}
+#wrapper_row1 h1{text-align:center; font-size:30px}
 
 /* --------Indices------*/
 
-.row2 p{text-align:center; font-size:10px; border-bottom:1px white}
+#wrapper_row2 p{text-align:center; font-size:10px; border-bottom:1px white}
