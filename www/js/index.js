@@ -20,7 +20,7 @@
 	var hintGivenList = []; // Liste sous le format [[indice11 donné,indice 12 donné...],[indice 21 donné]...]
 	// Liste d'indice déja donné par numéro de puce NFC.
 
-	var hintBlock = document.getElementById("wrapper raw2"); // Element HTML où afficher les différents indices.
+	var hintBlock = document.getElementById("wrapper row2"); // Element HTML où afficher les différents indices.
 	var currentNFC = "undefined"; // Dernière puce NFC lue, initialisation à "undefined".
 
 		// Déclaration de fonctions
