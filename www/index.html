@@ -1,46 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-	
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=yes" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
-	
-<link rel="stylesheet" href="css/index.css">
-<title>Exitgame</title>
+
+    <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+    <title>Mon application</title>
 </head>
 
 <body>
 
-<!-- / Bande Haut de page avec chrono -->
-
-<div id="wrapper row1">
-	<header id="header" class="clear">
-		<div id="chrono">
-   			<!-- / A COMPLETER CHRONO -->
-   		</div>
-	</header>
-</div>
-
-<!-- / Corps avec indices -->
-
-<div id="wrapper row2">
-	
-	<!-- / A COMPLETER INDICES -->
-</div>
-
-<!-- / Bande Bas de page VIDE -->
-
-<div id="wrapper row3">
-	<!-- / METTRE LE INPUT ICI-->
+<!-- SimulNFC -->
     <input type = "file" id = "fileHint" name = "fileHint" multiple />
     <input type = "file" id = "fileCond" name = "fileCond" multiple />
     <input type = "file" id = "fileID" name = "fileID" multiple />
-    <button id = "button">Reset</button>
-</div>
+    <button id = "button">Reset</button> 
+
+<!-- BlocsIndices -->
+
+	<div id = "wrapper row2">
+
+
+	</div>
+
+<!-- Execution du script -->
+    <script type="text/javascript" src = "cordova.js"></script>
+    <script type="text/javascript" src = "js/index.js"></script>
 
 
     <script>
@@ -76,4 +66,5 @@
 
 
 </body>
+
 </html>
