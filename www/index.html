@@ -2,7 +2,14 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="index.css">
+	
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+	
+<link rel="stylesheet" href="css/index.css">
 <title>Exitgame</title>
 </head>
 
@@ -21,6 +28,7 @@
 <!-- / Corps avec indices -->
 
 <div id="wrapper row2">
+	
 	<!-- / A COMPLETER INDICES -->
 </div>
 
@@ -28,10 +36,43 @@
 
 <div id="wrapper row3">
 	<!-- / METTRE LE INPUT ICI-->
+    <input type = "file" id = "fileHint" name = "fileHint" multiple />
+    <input type = "file" id = "fileCond" name = "fileCond" multiple />
+    <input type = "file" id = "fileID" name = "fileID" multiple />
+    <button id = "button">Reset</button>
 </div>
 
 
+    <script>
 
+        document.getElementById('fileHint').addEventListener('change', function (e) {
+            var files = e.target.files;
+            var reader = new FileReader();
+            //proceed your files here
+            reader.readAsText(files[0]);
+            CSVmanagerHint.handleFiles(files);
+            }, false);
+
+        document.getElementById('fileCond').addEventListener('change', function (e) {
+           	var filesCond = e.target.files;
+            var readerCond = new FileReader();
+            //proceed your files here
+            readerCond.readAsText(filesCond[0]);
+            CSVmanagerCond.handleFiles(filesCond);
+            }, false);
+
+        document.getElementById('fileID').addEventListener('change', function (e) {
+            var filesID = e.target.files;
+            var readerID = new FileReader();
+            //proceed your files here
+            readerID.readAsText(filesID[0]);
+            CSVmanagerID.handleFiles(filesID);
+            }, false);
+
+        document.getElementById('button').addEventListener('click', reseter.init);
+
+        app.initialize();
+    </script>
 
 
 </body>
