@@ -81,7 +81,7 @@ var app = {
 
    onNfc: function(nfcEvent) {
 	   //alert("i just read");
-	    navigator.notification.vibrate(1000);
+	    navigator.notification.vibrate(500);
 	    var tag = nfcEvent.tag;
 	    var stringTag = nfc.bytesToHexString(tag.id);
 	    var NFCnumber = app.idToNumber(stringTag);
@@ -89,7 +89,7 @@ var app = {
 	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
 
 	    app.stopRead();
-	    setTimeout(app.startRead,10000);
+	    setTimeout(app.startRead,5000);
 
 	    hintManager.init(NFCnumber);
 
