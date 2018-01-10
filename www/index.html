@@ -11,10 +11,11 @@
 			
 			{
 				console.log('onconnect')
+				alert("isconnected");
 				socket.on('event', function(data){console.log('onevent')}); 
 				socket.on('disconnect', function(){console.log('ondisconnect')});
-				socket.on("message_from_server",function(data){  //Plus tard on mettre "message_from_server_IDNFC"
-					$('table').append("<p>"+data.message+"</p>");
+				socket.on("message_from_server",function(data){
+					alert(data.message);
 
 				})
 
