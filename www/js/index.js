@@ -6,22 +6,41 @@
 
 		// Déclaration de variable
 
-	var hintData = []; // Liste sous le format : [[NFCnumber,indice1,indice2..],[NFCnumber,indice1...]...].
-	// hintData [3][4] renvoie l'indice 4 de la puce NFC numéro 3.
+	var hintBlock = document.getElementById("wrapper raw2"); // Element HTML où afficher les différents indices.
+	var GMblock = document.getElementById("GM message");
 
-	var condData = []; // Liste sous le format : [[NFCnumber,NFCcond,Activated]...]
-	// NFCcond : numéro de puce NFC conditionnelle, sous format "c1,c2..". "c0" correspond à l'absence de puce conditionnelle.
-	//Activated = "1" si activée, "0" sinon.
+	var hintGivenList = [];
 
-	var IDdata = []; //IDdata [id] = [NFCnumber,Iscond]
-
-	var condDataOld = []; // Liste de copie de la colonne "Activated" initiale de condData.
-
-	var hintGivenList = []; // Liste sous le format [[indice11 donné,indice 12 donné...],[indice 21 donné]...]
-	// Liste d'indice déja donné par numéro de puce NFC.
-
-	var hintBlock = document.getElementById("wrapper_row2"); // Element HTML où afficher les différents indices.
+	var stringTag ; // Emplacement pour id de puce NFC
 	var currentNFC = "undefined"; // Dernière puce NFC lue, initialisation à "undefined".
+	var justChangedNFC = false ;
+
+	//var mySocket = new WebSocket("ws://www.example.com/socketserver");
+	var socket = io.connect("http://192.168.43.100:3001");
+	
+	socket.on('connect', function()
+			
+			{
+				console.log('onconnect')
+				socket.on('event', function(data){console.log('onevent')}); 
+				socket.on('disconnect', function(){console.log('ondisconnect')});
+				socket.on("message_from_server",function(data){
+					hintManager.whatToDo(data);
+				})
+
+			});
+	/*var socketOpened = false ;
+	mySocket.onopen = function (event){
+		socketOpened = true ;
+	};
+
+	if (socketOpened == true){
+		mySocket.onmessage = function(event){
+			hintManager.whatToDo(event.data);
+		};
+	};*/
+
+
 
 		// Déclaration de fonctions
 
@@ -46,7 +65,7 @@ var app = {
    		nfc.addTagDiscoveredListener(
          app.onNfc,             // tag successfully scanned
          function (status) {    // listener successfully initialized
-            console.log("Tap a tag to read its id number.");
+            alert("Tap a tag to read its id number.");
          },
          function (error) {     // listener fails to initialize
             alert("NFC reader failed to initialize " +
@@ -59,7 +78,7 @@ var app = {
    		nfc.removeTagDiscoveredListener(
          app.onNfc,             // tag successfully scanned
          function (status) {    // listener successfully initialized
-            console.log("Tap a tag to read its id number.");
+            alert("Tap a tag to read its id number.");
          },
          function (error) {     // listener fails to initialize
             alert("NFC reader failed to initialize " +
@@ -68,273 +87,101 @@ var app = {
          );
    },
    
-   idToNumber : function(NFCid){
-	   	//alert("working idto");
-		if (IDdata[NFCid][1] == "0"){
-			//alert("working idto cond");
-			return parseInt(IDdata[NFCid][0]);
-		} else {
-			return IDdata[NFCid][0]
-		}
-		
-	},
 
    onNfc: function(nfcEvent) {
-	   //alert("i just read");
-	    navigator.notification.vibrate(500);
+	   	navigator.notification.vibration(1000);
 	    var tag = nfcEvent.tag;
-	    var stringTag = nfc.bytesToHexString(tag.id);
-	    var NFCnumber = app.idToNumber(stringTag);
-	   //alert(NFCnumber);
+	    stringTag = nfc.bytesToHexString(tag.id);
+	    if (stringTag != currentNFC){
+	    	justChangedNFC = true;
+	    } else {
+	    	justChangedNFC = false;
+	    };
+	    currentNFC = stringTag ;
+	    alert(stringTag);
 	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
+	    //mySocket.send(stringTag);
 
 	    app.stopRead();
-	    setTimeout(app.startRead,5000);
+	    setTimeout(app.startRead,10000);
 
-	    hintManager.init(NFCnumber);
+	    //hintManager.init(NFCnumber);
 
    },
 }
 
-var CSVmanagerHint ={
-
-	handleFiles : function(files){
-		if (window.FileReader) {
-			CSVmanagerHint.getAsText(files[0]);
-		} else {
-			alert('FileReader are not supported in this browser.');
-		};
-	},
-
-	getAsText : function(fileToRead){
-		var reader = new FileReader();
-		reader.readAsText(fileToRead);
-		reader.onload = CSVmanagerHint.loadHandler;
-		reader.onerror = CSVmanagerHint.errorHandler;
-	},
-
-	loadHandler : function(event) {
-		var csv = event.target.result;
-		CSVmanagerHint.processData(csv);
-	},
-
-	processData : function(csv){
-		var allTextLines = csv.split(/\r?\n|\r/);
-        
-            for (var i=0; i<allTextLines.length; i++) {
-                var data = allTextLines[i].split(';');
-                var tarr = [];
-                for (var j=0; j<data.length; j++) {
-                        tarr.push(data[j]);
-                    };
-                hintData.push(tarr);
-            };
-        CSVmanagerHint.CSVremover();
-
-        //alert(hintData[4][2]);
-      },
-
-      errorHandler : function(evt) {
-      	if (evt.target.error.name == "NotReadableError") {
-      		alert("Cannot read file !");
-      	};
-      },
-
-      CSVremover : function(){
-      	var input = document.getElementById("fileHint");
-      	input.parentNode.removeChild(input);
-      }
-}
-
-var CSVmanagerID ={
-
-	handleFiles : function(files){
-		if (window.FileReader) {
-			CSVmanagerID.getAsText(files[0]);
-		} else {
-			alert('FileReader are not supported in this browser.');
-		};
-	},
-
-	getAsText : function(fileToRead){
-		var reader = new FileReader();
-		reader.readAsText(fileToRead);
-		reader.onload = CSVmanagerID.loadHandler;
-		reader.onerror = CSVmanagerID.errorHandler;
-	},
-
-	loadHandler : function(event) {
-		var csv = event.target.result;
-		CSVmanagerID.processData(csv);
-	},
-
-	processData : function(csv){
-		var allTextLines = csv.split(/\r?\n|\r/);
-        
-            for (var i=0; i<allTextLines.length; i++) {
-                var data = allTextLines[i].split(';');
-                var tarr = [];
-                for (var j=0; j<data.length; j++) {
-                        tarr.push(data[j]);
-                    };
-                //tarr.push(false);
-                IDdata[tarr[0]] = [tarr[1],tarr[2]];
-                //condData[tarr[1]] = tarr;
-            };
-        CSVmanagerID.CSVremover();
-
-        //alert(IDdata[][0]);
-        //alert(condData);
-      },
-
-      errorHandler : function(evt) {
-      	if (evt.target.error.name == "NotReadableError") {
-      		alert("Cannot read file !");
-      	};
-      },
-
-      CSVremover : function(){
-      	var input = document.getElementById("fileID");
-      	input.parentNode.removeChild(input);
-      },
-}
-
-var CSVmanagerCond ={
-
-	handleFiles : function(files){
-		if (window.FileReader) {
-			CSVmanagerCond.getAsText(files[0]);
-		} else {
-			alert('FileReader are not supported in this browser.');
-		};
-	},
-
-	getAsText : function(fileToRead){
-		var reader = new FileReader();
-		reader.readAsText(fileToRead);
-		reader.onload = CSVmanagerCond.loadHandler;
-		reader.onerror = CSVmanagerCond.errorHandler;
-	},
-
-	loadHandler : function(event) {
-		var csv = event.target.result;
-		CSVmanagerCond.processData(csv);
-	},
-
-	processData : function(csv){
-		var allTextLines = csv.split(/\r?\n|\r/);
-        
-            for (var i=0; i<allTextLines.length; i++) {
-                var data = allTextLines[i].split(';');
-                var tarr = [];
-                for (var j=0; j<data.length; j++) {
-                        tarr.push(data[j]);
-                    };
-                //tarr.push(false);
-                condData.push(tarr);
-                //condData[tarr[1]] = tarr;
-            };
-        CSVmanagerCond.CSVremover();
-
-        //alert(condData["c3"][0]);
-        //alert(condData);
-      },
-
-      errorHandler : function(evt) {
-      	if (evt.target.error.name == "NotReadableError") {
-      		alert("Cannot read file !");
-      	};
-      },
-
-      CSVremover : function(){
-      	var input = document.getElementById("fileCond");
-      	input.parentNode.removeChild(input);
-      },
-}
-
-var condManager={
-
-	condUpdater : function(NFCstring){
-		
-		for (var i=1;i<condData.length;i++){
-			if (condData[i][1]==NFCstring){
-				condDataOld[i]=condData[i][2];
-				condData[i][2]=1;
-			};
-		};
-		//condData[NFCstring][2] = 1;
-	},
-
-	isCondVerified : function(NFCnumber){
-		if (parseInt(condData[NFCnumber][2])==1){
-			return true;
-		} else {
-			return false;
-		}
-		
-	},
-
-}
 
 var hintManager ={
 
-	init : function(NFCnumber){
-		//alert("working init hm"+NFCnumber);
-		if (typeof(NFCnumber)=='string'){
-			condManager.condUpdater(NFCnumber);
-			return 0;
-		} else {
-			//alert(condManager.isCondVerified(NFCnumber));
-			if ((currentNFC == "undefined")&&(condManager.isCondVerified(NFCnumber))){
-				currentNFC = NFCnumber;
-				hintManager.hintListCreator(NFCnumber);
+	whatToDo : function(stringReceived){
+		var splitString = stringReceived.split("$");
+		var stringReceivedMessage = splitString[1];
 
-			} else if ((currentNFC == "undefined")&&(!condManager.isCondVerified(NFCnumber))){
+		if (splitString[0] == "1"){ // Message du Game Master
 
-				alert("Inspectez d'abord les alentours...");
-			
-			} else if ((currentNFC != NFCnumber) && (condManager.isCondVerified(NFCnumber))) {
-				
-				currentNFC = NFCnumber;
-				hintManager.hintCleaner();
-				hintManager.hintMover(hintManager.hintListUpdater(NFCnumber));
+			hintManager.GMCleaner();
+			var GMPar = document.createElement('p');
+			var GMText = document.createTextNode(stringReceived);
 
-			} else if ((currentNFC != NFCnumber) && (!condManager.isCondVerified(NFCnumber))){
-				
-				alert("Inspectez d'abord les alentours...");
+			GMPar.className = "hint";
+
+			GMPar.appendChild(GMText);
+			GMblock.appendChild(GMPar);
+
+
+		} else if (splitString[0] == "2"){ // Condition non vérifiée pour lecture puce indicielle
+			//alert(splitString[1]);
+			alert("Inspectez d'abord les alentours...");
+
+
+		} else if (splitString[0]=="3"){ // Lecture puce indicielle
+
+			if (currentNFC == "undefined"){
+				hintManager.hintMover(hintManager.hintBlockCreator(stringReceivedMessage));
 
 			} else {
-				hintManager.hintMover(hintManager.hintListUpdater(NFCnumber));
-			};
-		};
+				if (justChangedNFC){
+					
+					hintManager.hintCleaner();
+					hintManager.hintListUpdater(stringReceivedMessage);
 
+				} else {
+
+					hintGivenList[currentNFC].push(stringReceivedMessage);
+					hintManager.hintMover(hintManager.hintBlockCreator(stringReceivedMessage));
+				};
+			};
+
+
+		} else if (splitString[0]=="4"){ // Lecture d'une puce reset
+			hintManager.reset();
+		};
+		
 	},
 
-	hintListCreator : function (NFCnumber){
-		hintGivenList[NFCnumber] = [];
-		hintGivenList[NFCnumber].push(hintData[NFCnumber][1]);
+	hintListCreator : function (stringReceived){
+		hintGivenList[currentNFC] = [];
+		hintGivenList[currentNFC].push(stringReceived);
 		hintManager.hintCleaner();
-		hintManager.hintMover(hintManager.hintBlockCreator(NFCnumber,1));
+		hintManager.hintMover(hintManager.hintBlockCreator(stringReceived));
 
 	},
 
-	hintListUpdater : function (NFCnumber){
-		if (!hintGivenList[NFCnumber]){
-			hintManager.hintListCreator(NFCnumber);
+	hintListUpdater : function (stringReceived){
+		if (!hintGivenList[currentNFC]){
+			hintManager.hintListCreator(stringReceived);
 		} else {
-			var nowOn = hintGivenList[NFCnumber].length;
-			//alert(nowOn);
-			if (hintData[NFCnumber][nowOn + 1]){
-				hintGivenList[NFCnumber].push(hintData[NFCnumber][nowOn + 1]);
-				return hintManager.hintBlockCreator(NFCnumber,nowOn + 1);
+			hintGivenList[currentNFC].push(stringReceived);
+			for (var i = 0; i<hintGivenList[currentNFC].length; i++) {
+				hintManager.hintMover(hintManager.hintBlockCreator(hintGivenList[currentNFC][i]));
 			};
 		};
 
 	},
 
-	hintBlockCreator : function (NFCnumber,hintNumber){
+	hintBlockCreator : function (stringReceived){
 		var hintPar = document.createElement('p');
-		var hintText = document.createTextNode(hintData[NFCnumber][hintNumber]);
+		var hintText = document.createTextNode(stringReceived);
 
 		hintPar.className = "hint";
 
@@ -351,34 +198,27 @@ var hintManager ={
 		}
 	},
 
+	GMCleaner : function(){
+		while (GMblock.hasChildNodes()){
+			var firstChild = GMblock.firstChild;
+			firstChild.parentNode.removeChild(firstChild);
+
+		}
+	},
+
 	hintMover : function(hintPar){
 		hintBlock.appendChild(hintPar);
 	},
 
-}
-
-var reseter ={
-
-	init : function(){
-		currentNFC = "undefined";
-		reseter.hintGivenReset();
-		reseter.condDataReset();
-		hintManager.hintCleaner();
-	},
-
-	hintGivenReset : function(){
+	reset : function(){
 		hintGivenList = [];
-		
-	},
-
-	condDataReset : function(){
-		for (var i = 1;i<condData.length;i++){
-			if (condDataOld[i]){
-				condData[i][2]=condDataOld[i];
-			};
-		};
+		currentNFC = "undefined";
+		hintManager.hintCleaner();
+		hintManager.GMCleaner();
 	},
 
 }
+
+
 
 
