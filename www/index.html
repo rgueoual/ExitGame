@@ -1,37 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf8">
-	<title>Téléphone</title>
-	<script type="text/javascript" src="http://192.168.1.32:88/tests/json/node_modules/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript" src="http://192.168.1.32:88/tests/json/node_modules/socket.io-client/dist/socket.io.js"></script>
-	<script type="text/javascript">
-		
-	</script>
-</head>
-<body>
-<!-- BlocsIndices -->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Socket.io</title>
+    </head>
+ 
+    <body>
+        <h1>Communication avec socket.io !</h1>
 
-	<div id = "wrapper raw2">
+        <p><input type="button" value="Embêter le serveur" id="poke" /></p>
+	    
+	<script type="text/javascript" src="http://localhost:88/tests/json/node_modules/jquery/dist/jquery.min.js"></script>
+    	<script type="text/javascript" src="http://localhost:88/tests/json/node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:4000');
+            socket.on('message', function(message) {
+                alert('Le serveur a un message pour vous : ' + message);
+            })
 
-
-	</div>
-
-    <div id = "GM message">
-        
-        
-    </div>
-
-<!-- Execution du script -->
-    <script type="text/javascript" src = "cordova.js"></script>
-    <script type="text/javascript" src = "js/index.js"></script>
-
-
-    <script>
-        app.initialize();
-    </script>
-
-
-</body>
-
+            $('#poke').click(function () {
+                socket.emit('message', 'Salut serveur, ça va ?');
+            })
+        </script>
+    </body>
 </html>
