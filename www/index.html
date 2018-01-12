@@ -3,33 +3,35 @@
 <head>
 	<meta charset="utf8">
 	<title>Téléphone</title>
-	<script type="text/javascript" src="http://192.168.43.100:88/tests/json/node_modules/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript" src="http://192.168.43.100:88/tests/json/node_modules/socket.io-client/dist/socket.io.js"></script>
+	<script type="text/javascript" src="http://192.168.1.32:88/tests/json/node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="http://192.168.1.32:88/tests/json/node_modules/socket.io-client/dist/socket.io.js"></script>
 	<script type="text/javascript">
-		var socket = io.connect("http://192.168.43.100:3001");
-		socket.on('connect', function()
-			
-			{
-				console.log('onconnect')
-				alert("isconnected");
-				socket.on('event', function(data){console.log('onevent')}); 
-				socket.on('disconnect', function(){console.log('ondisconnect')});
-				socket.on("message_from_server",function(data){
-					alert(data.message);
-
-				})
-
-			}); 
 		
 	</script>
 </head>
 <body>
-	<table class='table'>
-		<tr>
-			<th>Regardez par ici l'indice donné par le Game Master</th>
+<!-- BlocsIndices -->
 
-		</tr>
-	</table>
+	<div id = "wrapper raw2">
+
+
+	</div>
+
+    <div id = "GM message">
+        
+        
+    </div>
+
+<!-- Execution du script -->
+    <script type="text/javascript" src = "cordova.js"></script>
+    <script type="text/javascript" src = "js/index.js"></script>
+
+
+    <script>
+        app.initialize();
+    </script>
+
 
 </body>
+
 </html>
