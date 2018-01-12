@@ -53,7 +53,8 @@
 				socket.on("message_from_server",function(data){
 					hintManager.whatToDo(data.message);
 				})
-
+				socket.emit("message_from_phone","salut");
+				alert("working after emit");
 			});
 
 	
@@ -94,7 +95,7 @@ var app = {
    		nfc.addTagDiscoveredListener(
          app.onNfc,             // tag successfully scanned
          function (status) {    // listener successfully initialized
-            alert("Tap a tag to read its id number.");
+            console.log("Tap a tag to read its id number.");
          },
          function (error) {     // listener fails to initialize
             alert("NFC reader failed to initialize " +
