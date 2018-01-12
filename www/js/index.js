@@ -6,7 +6,6 @@
 
 		// Déclaration de variable
 	
-	alert("working index.js");
 
 	var hintBlock = document.getElementById("wrapper raw2"); // Element HTML où afficher les différents indices.
 	var GMblock = document.getElementById("GM message");
@@ -19,13 +18,14 @@
 
 	//var mySocket = new WebSocket("ws://www.example.com/socketserver");
 
-
-	var html = require('fs').readFileSync(__dirname+'/client.html');
+	alert("working just before var html");
+	var html = require('fs').readFileSync('../index.html');
+	alert("working after var html");
 	var app = require('http').createServer(function(req, res){ res.end(html); });
 	app.listen(3002);
 	var io = require("socket.io");
 	var io = io.listen(app);
-
+	alert("working just after var io");
 // Fonction d'écoute
 
 	var socket = io.connect("http://192.168.1.32:3002");
