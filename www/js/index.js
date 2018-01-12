@@ -5,7 +5,7 @@
 	// Déclaration d'éléments
 
 		// Déclaration de variable
-
+	alert("working index js");
 	var hintBlock = document.getElementById("wrapper raw2"); // Element HTML où afficher les différents indices.
 	var GMblock = document.getElementById("GM message");
 
@@ -18,31 +18,31 @@
 	//var mySocket = new WebSocket("ws://www.example.com/socketserver");
 
 // FONCTION ENVOI //
+
+/*
 	var socket = require('socket.io'),
 	express = require('express'),
 	https = require('https'),
 	http = require('http'),
 	logger = require('winston');
-	alert("working after logger");
 
 	logger.remove(logger.transports.Console);
 	logger.add(logger.transports.Console, {colorize: true, timestamp: true });
 	logger.info('SocketIO > listening on port ');
-	alert("working after logger.info");
 
 	var app2=express();
 	var http_server = http.createServer(app2).listen(3001);
 	//var http_server = app.listen(3001);
-	alert("working after http server");
+
 	var io = socket.listen(http_server);
 	io.sockets.on('connection',function(socket){
 		socket.emit("event_phone",stringTag);
 	});
-
+*/
 
 // FONCTION ECOUTE //
-/*
-	var socket = io.connect("http://192.168.43.100:3001");
+
+	var socket = io.connect("http://192.168.1.32:3001");
 	
 	socket.on('connect', function()
 			
@@ -55,7 +55,7 @@
 				})
 
 			});
-*/
+
 	
 
 	/*var socketOpened = false ;
@@ -127,7 +127,9 @@ var app = {
 	    	justChangedNFC = false;
 	    };
 	    currentNFC = stringTag ;
-	    
+	    alert(stringTag);
+	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
+	    //mySocket.send(stringTag);
 
 	    app.stopRead();
 	    setTimeout(app.startRead,10000);
@@ -141,6 +143,7 @@ var app = {
 var hintManager ={
 
 	whatToDo : function(stringReceived){
+		alert(stringReceived);
 		var splitString = stringReceived.split("$");
 		var stringReceivedMessage = splitString[1];
 
