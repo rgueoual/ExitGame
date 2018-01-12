@@ -5,7 +5,6 @@
 	// Déclaration d'éléments
 
 		// Déclaration de variable
-	
 
 	var hintBlock = document.getElementById("wrapper raw2"); // Element HTML où afficher les différents indices.
 	var GMblock = document.getElementById("GM message");
@@ -18,17 +17,32 @@
 
 	//var mySocket = new WebSocket("ws://www.example.com/socketserver");
 
-	alert("working just before var html");
-	var html = require('fs').readFileSync('../index.html');
-	alert("working after var html");
-	var app = require('http').createServer(function(req, res){ res.end(html); });
-	app.listen(3002);
-	var io = require("socket.io");
-	var io = io.listen(app);
-	alert("working just after var io");
-// Fonction d'écoute
+// FONCTION ENVOI //
+	var socket = require('socket.io'),
+	express = require('express'),
+	https = require('https'),
+	http = require('http'),
+	logger = require('winston');
+	alert("working after logger");
 
-	var socket = io.connect("http://192.168.1.32:3002");
+	logger.remove(logger.transports.Console);
+	logger.add(logger.transports.Console, {colorize: true, timestamp: true });
+	logger.info('SocketIO > listening on port ');
+	alert("working after logger.info");
+
+	var app2=express();
+	var http_server = http.createServer(app2).listen(3001);
+	//var http_server = app.listen(3001);
+	alert("working after http server");
+	var io = socket.listen(http_server);
+	io.sockets.on('connection',function(socket){
+		socket.emit("event_phone",stringTag);
+	});
+
+
+// FONCTION ECOUTE //
+/*
+	var socket = io.connect("http://192.168.43.100:3001");
 	
 	socket.on('connect', function()
 			
@@ -41,6 +55,9 @@
 				})
 
 			});
+*/
+	
+
 	/*var socketOpened = false ;
 	mySocket.onopen = function (event){
 		socketOpened = true ;
@@ -60,7 +77,6 @@
 
 var app = {
 	initialize: function() {
-	alert("working initialize");
       	this.bindEvents();
       	console.log("Starting NFC Reader app");
    },
@@ -111,12 +127,7 @@ var app = {
 	    	justChangedNFC = false;
 	    };
 	    currentNFC = stringTag ;
-	    io.sockets.on('connection', function (socket) {
-    		socket.emit('faitUneAlerte', stringTag);
-		});
-	    //alert(stringTag);
-	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
-	    //mySocket.send(stringTag);
+	    
 
 	    app.stopRead();
 	    setTimeout(app.startRead,10000);
