@@ -17,30 +17,15 @@
 
 	//var mySocket = new WebSocket("ws://www.example.com/socketserver");
 
-// FONCTION ENVOI //
+// FONCTION ECOUTE //
 
-/*
 	var socket = require('socket.io'),
+	alert("working after first require");
 	express = require('express'),
 	https = require('https'),
 	http = require('http'),
 	logger = require('winston');
-
-	logger.remove(logger.transports.Console);
-	logger.add(logger.transports.Console, {colorize: true, timestamp: true });
-	logger.info('SocketIO > listening on port ');
-
-	var app2=express();
-	var http_server = http.createServer(app2).listen(3001);
-	//var http_server = app.listen(3001);
-
-	var io = socket.listen(http_server);
-	io.sockets.on('connection',function(socket){
-		socket.emit("event_phone",stringTag);
-	});
-*/
-
-// FONCTION ECOUTE //
+	alert("working after last require");	
 
 	var socket = io.connect("http://192.168.1.32:3001");
 	
