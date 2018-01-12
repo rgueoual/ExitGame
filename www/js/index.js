@@ -17,15 +17,11 @@
 
 	//var mySocket = new WebSocket("ws://www.example.com/socketserver");
 
+// FONCTION ENVOI //
+
+
 // FONCTION ECOUTE //
 
-	var socket = require('socket.io'),
-	alert("working after first require");
-	express = require('express'),
-	https = require('https'),
-	http = require('http'),
-	logger = require('winston');
-	alert("working after last require");	
 
 	var socket = io.connect("http://192.168.1.32:3001");
 	
@@ -38,8 +34,8 @@
 				socket.on("message_from_server",function(data){
 					hintManager.whatToDo(data.message);
 				})
-				socket.emit("message_from_phone","salut");
-				alert("working after emit");
+				socket.send("salut");
+
 			});
 
 	
