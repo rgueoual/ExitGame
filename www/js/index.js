@@ -5,7 +5,7 @@
 	// Déclaration d'éléments
 
 		// Déclaration de variable
-	alert("working index js");
+
 	var hintBlock = document.getElementById("wrapper raw2"); // Element HTML où afficher les différents indices.
 	var GMblock = document.getElementById("GM message");
 
@@ -51,7 +51,7 @@
 				socket.on('event', function(data){console.log('onevent')}); 
 				socket.on('disconnect', function(){console.log('ondisconnect')});
 				socket.on("message_from_server",function(data){
-					hintManager.whatToDo(data);
+					hintManager.whatToDo(data.message);
 				})
 
 			});
@@ -118,7 +118,7 @@ var app = {
    
 
    onNfc: function(nfcEvent) {
-	   	navigator.notification.vibration(1000);
+	   	navigator.notification.vibrate(1000);
 	    var tag = nfcEvent.tag;
 	    stringTag = nfc.bytesToHexString(tag.id);
 	    if (stringTag != currentNFC){
@@ -127,6 +127,7 @@ var app = {
 	    	justChangedNFC = false;
 	    };
 	    currentNFC = stringTag ;
+
 	    alert(stringTag);
 	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
 	    //mySocket.send(stringTag);
