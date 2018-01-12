@@ -5,6 +5,8 @@
 	// Déclaration d'éléments
 
 		// Déclaration de variable
+	
+	alert("working index.js");
 
 	var hintBlock = document.getElementById("wrapper raw2"); // Element HTML où afficher les différents indices.
 	var GMblock = document.getElementById("GM message");
@@ -58,6 +60,7 @@
 
 var app = {
 	initialize: function() {
+	alert("working initialize");
       	this.bindEvents();
       	console.log("Starting NFC Reader app");
    },
