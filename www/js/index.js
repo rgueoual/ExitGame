@@ -17,7 +17,7 @@
 
 	//var mySocket = new WebSocket("ws://www.example.com/socketserver");
 
-// FONCTION ENVOI //
+
 
 
 // FONCTION ECOUTE //
@@ -34,22 +34,14 @@
 				socket.on("message_from_server",function(data){
 					hintManager.whatToDo(data.message);
 				})
-				socket.send("salut");
-
 			});
 
-	
+// FONCTION ENVOI //
 
-	/*var socketOpened = false ;
-	mySocket.onopen = function (event){
-		socketOpened = true ;
-	};
-
-	if (socketOpened == true){
-		mySocket.onmessage = function(event){
-			hintManager.whatToDo(event.data);
-		};
-	};*/
+	var socket2 = io.connect('http://192.168.1.32:4000');
+    socket2.on('message', function(message) {
+        console.log('Le serveur a un message pour vous : ' + message);
+        });
 
 
 
@@ -110,14 +102,12 @@ var app = {
 	    };
 	    currentNFC = stringTag ;
 
-	    alert(stringTag);
-	    //app.display("Read tag: " + nfc.bytesToHexString(tag.id));
-	    //mySocket.send(stringTag);
+	    //alert(stringTag);
+	    socket2.emit('message',stringTag);
 
 	    app.stopRead();
 	    setTimeout(app.startRead,10000);
 
-	    //hintManager.init(NFCnumber);
 
    },
 }
@@ -126,7 +116,7 @@ var app = {
 var hintManager ={
 
 	whatToDo : function(stringReceived){
-		alert(stringReceived);
+		//alert(stringReceived);
 		var splitString = stringReceived.split("$");
 		var stringReceivedMessage = splitString[1];
 
