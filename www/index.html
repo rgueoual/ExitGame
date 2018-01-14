@@ -9,25 +9,36 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
 
-    <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
-    <title>Mon application</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Exit Game</title>
     <script type="text/javascript" src="http://192.168.1.32:88/tests/json/node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="http://192.168.1.32:88/tests/json/node_modules/socket.io-client/dist/socket.io.js"></script>
 </head>
 
 <body>
+	
+<!-- Bloc timer -->
+    <div id = "wrapper1" class = "indice">
+            <p>
+                <span id = minutes>10</span>
+                 : 
+                <span id = secondes>00</span>
+            </p>
+    </div>	
+	
+<!-- Bloc Indices -->
 
-<!-- BlocsIndices -->
-
-	<div id = "wrapper raw2">
-
-
+	<div id = "wrapper2">
 	</div>
 
-    <div id = "GM message">
-        
-        
+	
+<!-- Bloc Admin -->
+	
+    <div id = "wrapper3">
     </div>
+
+
+
 
 <!-- Execution du script -->
     <script type="text/javascript" src = "cordova.js"></script>
@@ -36,6 +47,67 @@
 
     <script>
         app.initialize();
+	    
+	// GESTION TIMER //
+
+            function init(){
+        tick();
+        interval = setInterval(tick, 1000);
+        }
+
+        function tick(){
+            var sec_num = parseInt(sec.innerHTML);
+            var min_num = parseInt(min.innerHTML);
+            if ((min_num == 00) && (sec_num == 01)) {
+                timeUp();
+            } else {
+                change_sec(sec_num);
+            };
+        }
+
+        function change_sec(sec_num){
+
+            if (sec_num == 00){
+                sec.innerHTML = '59';
+                change_min();
+            } else if (sec_num<=10 && sec_num>0){
+                var newSec = sec_num - 1
+                sec.innerHTML = '0'+newSec
+            } else {
+                var newSec = sec_num - 1
+                sec.innerHTML = ''+newSec
+            }
+        }
+
+        function change_min(){
+
+            var min_num = parseInt(min.innerHTML);
+            
+            if (min_num<=10 && min_num>0) {
+                var newMin = min_num - 1
+                min.innerHTML = '0'+newMin
+            } else if (min_num>10) {
+                var newMin = min_num - 1
+                min.innerHTML = ''+newMin
+            }
+        }
+
+        function timeUp(){
+                clearInterval(interval);
+                sec.innerHTML = '00';
+                min.innerHTML = '00';
+                alert("time's up");
+        }
+
+        function start(){
+            init();
+            element_timer.removeEventListener("click",start);
+        }
+
+        var sec = document.getElementById('secondes');
+        var min = document.getElementById('minutes');
+        var interval;
+	start();
     </script>
 
 
