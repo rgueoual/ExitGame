@@ -126,7 +126,7 @@ var hintManager ={
 			var GMPar = document.createElement('p');
 			var GMText = document.createTextNode(stringReceived);
 
-			GMPar.className = "hint";
+			GMPar.className = "mess_admin";
 
 			GMPar.appendChild(GMText);
 			GMblock.appendChild(GMPar);
