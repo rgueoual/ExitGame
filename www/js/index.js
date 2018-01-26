@@ -23,7 +23,7 @@
 // FONCTION ECOUTE //
 
 
-	var socket = io.connect("http://192.168.1.11:3001");
+	var socket = io.connect("http://192.168.43.100:3001");
 	
 	socket.on('connect', function()
 			
@@ -38,7 +38,7 @@
 
 // FONCTION ENVOI //
 
-	var socket2 = io.connect('http://192.168.1.11:4000');
+	var socket2 = io.connect('http://192.168.43.100:4000');
     socket2.on('message', function(message) {
         console.log(message);
         });
